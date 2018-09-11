@@ -26,7 +26,8 @@ string toString_impl(const T& t) {
     return ss.str();
 }
 
-vector<string> toString() {
+////////////WE DO NOT HAVE TO WRITE ALL BELOW LINE OF CODES //////////////////
+/*vector<string> toString() {
     return {};
 }
 
@@ -38,15 +39,43 @@ vector<string> toString(const P1& param1, const Params&... params) {
     const auto remainder = toString(params...);
     sVector.insert(sVector.end(), remainder.begin(), remainder.end());
     return sVector;
+}*/
+//////////////////////////////////////////////////////////////////////////////
+
+
+////////////////// WE SIMPLY WRITE THE CODE BELOW /////////////////////////////
+
+template <typename... Params>
+vector<string> toString(const Params&... params) {
+    return {toString_impl(params)...};
+
 }
+///////////////////////////////////////////////////////////////////////////////
+
+/////////// AND ALSO WE CAN WRITE A LAMBDA FUNCTION, BUT SLOWER ////////////////
+
+template <typename... Params>
+vector<string> tostring(const Params&... params) {
+
+    auto toString_impl = [](const auto& t) {
+        stringstream ss;
+        ss << t;
+        return ss.str();
+    };
+
+    return {toString_impl(params)...};
+
+}
+
+////////////////////////////////////////////////////////////////////////////////
 
 int main(int argc, char** argv) {
 
     auto v = toString(1, "Hello World", 5.67);
-    
-        for (auto c : v) {
-            cout << c << '\n';
-        }
+
+    for (auto c : v) {
+        cout << c << '\n';
+    }
 
     return 0;
 }
